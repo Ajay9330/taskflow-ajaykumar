@@ -10,7 +10,8 @@ The fastest way to get everything running is by using Docker. Follow these exact
 
 ```bash
 # 1. Clone the repository and navigate into the project directory
-# (Assuming you are already in the root directory: cd taskflow-ajaykumar)
+git clone https://github.com/Ajay9330/taskflow-ajaykumar.git
+cd taskflow-ajaykumar
 
 # 2. Copy the example environment file
 cp .env.example .env

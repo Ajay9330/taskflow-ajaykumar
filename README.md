@@ -4,9 +4,7 @@ TaskFlow is a robust, full-stack project management application featuring a Reac
 
 ## 🎥 Demo
 
-<video controls src="final.mp4" width="100%">
-  Your browser does not support the video tag.
-</video>
+![Demo Video](final.gif)
 
 ---
 

@@ -37,13 +37,12 @@ COPY --from=builder /usr/local /usr/local
 COPY app ./app
 COPY alembic ./alembic
 COPY alembic.ini .
-COPY scripts ./scripts
 
 # Fix permissions
-RUN chown -R appuser:appgroup /app && chmod +x scripts/start.sh
+RUN chown -R appuser:appgroup /app
 
 USER appuser
 
 EXPOSE 8080
 
-CMD ["scripts/start.sh"]
+CMD sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8080"

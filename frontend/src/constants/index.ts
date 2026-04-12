@@ -11,3 +11,10 @@ export const TASK_PRIORITIES: { id: TaskPriority; label: string }[] = [
   { id: 'medium', label: 'Medium' },
   { id: 'high', label: 'High' },
 ];
+
+export const DASHBOARD_STATS = [
+  { id: 'total_projects', label: 'Total Projects' },
+  { id: 'projects_owned', label: 'Projects Owned' },
+  { id: 'open_tasks', label: 'Open Tasks' },
+  { id: 'completed_tasks', label: 'Completed Tasks' },
+];

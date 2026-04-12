@@ -7,13 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-
-interface TaskEditDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  task?: Task | null;
-  onSave: (taskData: Partial<Task>) => Promise<void>;
-}
+import type { TaskEditDialogProps } from '@/types/components';
 
 export function TaskEditDialog({ open, onOpenChange, task, onSave }: TaskEditDialogProps) {
   const [title, setTitle] = useState(task?.title || '');
@@ -90,7 +84,7 @@ export function TaskEditDialog({ open, onOpenChange, task, onSave }: TaskEditDia
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label>Status</Label>
-                <Select value={status} onValueChange={(v: any) => setStatus(v)}>
+                <Select value={status} onValueChange={(v: Task['status']) => setStatus(v)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
@@ -104,7 +98,7 @@ export function TaskEditDialog({ open, onOpenChange, task, onSave }: TaskEditDia
               
               <div className="grid gap-2">
                 <Label>Priority</Label>
-                <Select value={priority} onValueChange={(v: any) => setPriority(v)}>
+                <Select value={priority} onValueChange={(v: Task['priority']) => setPriority(v)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select priority" />
                   </SelectTrigger>

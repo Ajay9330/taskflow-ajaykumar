@@ -2,6 +2,12 @@
 
 TaskFlow is a robust, full-stack project management application featuring a React-based Kanban board and a high-performance FastAPI backend. It leverages Server-Sent Events (SSE) to ensure multiple users see task updates instantly, without needing to refresh their browsers.
 
+## 🎥 Demo
+
+<video controls src="final.mp4" width="100%">
+  Your browser does not support the video tag.
+</video>
+
 ---
 
 ## 🚀 How to Run the Application
@@ -80,3 +86,39 @@ This live sync is powered by the FastAPI backend pushing an SSE `task_updated` e
 - **ORM & Migrations:** SQLAlchemy (Async) & Alembic
 - **Validation:** Pydantic
 - **Real-time:** `asyncio.Queue` and `StreamingResponse` for Server-Sent Events (SSE).
+
+---
+
+## 🛠️ Development Setup
+
+If you wish to run the project locally without Docker for development purposes:
+
+### Database
+Before running the backend, start the PostgreSQL database using Docker Compose:
+
+```bash
+cp .env.example .env  # If you haven't already
+docker-compose up -d db
+```
+
+### Backend
+We use `uv` for fast Python package management. Make sure you have it installed.
+
+```bash
+cd backend
+uv sync
+
+# Run database migrations (this will also seed initial test data)
+# Seed user login: test@example.com / password123
+uv run alembic upgrade head
+
+# Start the development server
+uv run uvicorn app.main:app --reload --port 8080
+```
+
+### Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```

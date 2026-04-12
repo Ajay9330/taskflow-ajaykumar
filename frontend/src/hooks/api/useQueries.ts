@@ -1,6 +1,7 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import apiClient from './client';
-import type { Project, Task } from '../types';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { Project, Task } from '../../types';
+import type { UserStats } from '../../types/user-stats';
+import apiClient from '../../api/client';
 
 // Users
 export const useUsers = () => {
@@ -9,6 +10,16 @@ export const useUsers = () => {
     queryFn: async () => {
       const { data } = await apiClient.get('/users');
       return data.users as { id: string; name: string; email: string }[];
+    },
+  });
+};
+
+export const useUserStats = () => {
+  return useQuery({
+    queryKey: ["userStats"],
+    queryFn: async () => {
+      const { data } = await apiClient.get("/users/stats");
+      return data as UserStats;
     },
   });
 };
@@ -98,7 +109,7 @@ export const useUpdateTask = (projectId?: string) => {
       await queryClient.cancelQueries({ queryKey: ['projects', projectId] });
       const previousProject = queryClient.getQueryData(['projects', projectId]);
 
-      queryClient.setQueryData(['projects', projectId], (old: any) => {
+      queryClient.setQueryData<Project & { tasks: Task[] }>(['projects', projectId], (old: (Project & { tasks: Task[] }) | undefined) => {
         if (!old) return old;
 
         // Ensure we explicitly map through without losing the array reference
@@ -127,7 +138,7 @@ export const useDeleteTask = (projectId?: string) => {
       return taskId;
     },
     onSuccess: (taskId) => {
-      queryClient.setQueryData(['projects', projectId], (old: any) => {
+      queryClient.setQueryData<Project & { tasks: Task[] }>(['projects', projectId], (old: (Project & { tasks: Task[] }) | undefined) => {
         if (!old) return old;
         return {
           ...old,

@@ -1,15 +1,9 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { CalendarIcon, Clock, CheckCircle2, User } from 'lucide-react';
-import type { Task } from '@/types';
-import { useUsers } from '@/api/queries';
+import { useUsers } from '@/hooks/api/useQueries';
 import { getShortId, getInitials, formatDateTime, formatFullDate, cn } from '@/lib/utils';
-
-interface TaskViewDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  task?: Task | null;
-}
+import type { TaskViewDialogProps } from '@/types/components';
 
 export function TaskViewDialog({ open, onOpenChange, task }: TaskViewDialogProps) {
   const { data: users = [] } = useUsers();

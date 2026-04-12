@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CalendarIcon, Edit2, Trash2, Clock, User, Check, Eye } from 'lucide-react';
-import { type Task, type TaskStatus, type TaskPriority } from '@/types';
+import { type TaskStatus, type TaskPriority } from '@/types';
 import { TASK_STATUSES, TASK_PRIORITIES } from '@/constants/index';
 import { Card, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,16 +8,9 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
-import { useUsers } from '@/api/queries';
+import { useUsers } from '@/hooks/api/useQueries';
 import { cn, getShortId, getInitials, formatCompactDate, formatDateTime } from '@/lib/utils';
-
-interface TaskCardProps {
-  task: Task;
-  onView: (task: Task) => void;
-  onEdit: (task: Task) => void;
-  onDelete: (taskId: string) => void;
-  onQuickUpdate: (taskId: string, updates: Partial<Task>) => void;
-}
+import type { TaskCardProps } from '@/types/components';
 
 export function TaskCard({ task, onView, onEdit, onDelete, onQuickUpdate }: TaskCardProps) {
   const { data: users = [] } = useUsers();

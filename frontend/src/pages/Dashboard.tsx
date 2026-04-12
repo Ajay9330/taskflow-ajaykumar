@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Plus, MoreVertical, FolderOpen, Clock } from 'lucide-react';
-import { useProjects, useCreateProject, useUpdateProject, useDeleteProject, useUsers } from '@/api/queries';
+import { Plus, MoreVertical, FolderOpen, Clock, LayoutDashboard, Briefcase, CheckCircle, Activity } from 'lucide-react';
+import { useProjects, useCreateProject, useUpdateProject, useDeleteProject, useUsers, useUserStats } from '@/hooks/api/useQueries';
+import { DASHBOARD_STATS } from '@/constants';
 import { formatDateTime, getInitials } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Card, CardDescription, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Card, CardDescription, CardTitle, CardContent, CardHeader } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader as UIDialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Input } from '@/components/ui/input';
@@ -19,6 +20,7 @@ import type { Project } from '@/types';
 export default function Dashboard() {
   const { data: projects = [], isLoading, isError } = useProjects();
   const { data: users = [] } = useUsers();
+  const { data: stats, isLoading: isStatsLoading } = useUserStats();
   
   const createProject = useCreateProject();
   const updateProject = useUpdateProject();
@@ -98,21 +100,75 @@ export default function Dashboard() {
 
   if (isLoading) {
     return (
-      <div className="container p-6 mx-auto max-w-6xl">
-        <Skeleton className="h-10 w-[150px] mb-6" />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Skeleton className="h-[140px] w-full" />
-          <Skeleton className="h-[140px] w-full" />
-          <Skeleton className="h-[140px] w-full" />
+      <div className="container p-6 mx-auto max-w-6xl space-y-8">
+        <div>
+          <Skeleton className="h-8 w-[200px] mb-4" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[...Array(4)].map((_, i) => (
+              <Card key={i}>
+                <CardHeader className="pb-2">
+                  <Skeleton className="h-4 w-[120px]" />
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="h-8 w-16" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <div className="flex justify-between items-center mb-6">
+            <Skeleton className="h-8 w-[100px]" />
+            <Skeleton className="h-10 w-[120px] rounded-md" />
+          </div>
+          <div className="flex flex-col gap-3 mt-4">
+            <Skeleton className="h-[90px] w-full rounded-lg" />
+            <Skeleton className="h-[90px] w-full rounded-lg" />
+            <Skeleton className="h-[90px] w-full rounded-lg" />
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container p-6 mx-auto max-w-6xl">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Projects</h1>
+    <div className="container p-6 mx-auto max-w-6xl space-y-8">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-bold tracking-tight">Welcome back, {user?.name}! 👋</h1>
+        <p className="text-muted-foreground">Here's a quick overview of your projects and tasks.</p>
+      </div>
+
+      {/* Stats Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {DASHBOARD_STATS.map((stat, i) => {
+          const value = stats ? stats[stat.id as keyof typeof stats] : 0;
+          
+          let icon = null;
+          if (stat.id === 'total_projects') icon = <LayoutDashboard className="h-4 w-4 text-muted-foreground" />;
+          if (stat.id === 'projects_owned') icon = <Briefcase className="h-4 w-4 text-muted-foreground" />;
+          if (stat.id === 'open_tasks') icon = <Activity className="h-4 w-4 text-muted-foreground" />;
+          if (stat.id === 'completed_tasks') icon = <CheckCircle className="h-4 w-4 text-muted-foreground" />;
+
+          return (
+            <Card key={i}>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  {stat.label}
+                </CardTitle>
+                {icon}
+              </CardHeader>
+              <CardContent>
+                {isStatsLoading ? <Skeleton className="h-8 w-16" /> : <div className="text-2xl font-bold">{value || 0}</div>}
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+
+      <div>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold">Projects</h2>
         
         <Button onClick={openCreateDialog}>
           <Plus className="mr-2 h-4 w-4" />
@@ -121,12 +177,12 @@ export default function Dashboard() {
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="sm:max-w-106.25">
             <form onSubmit={handleSaveProject}>
-              <DialogHeader>
+              <UIDialogHeader>
                 <DialogTitle>{editingProject ? 'Edit Project' : 'Create Project'}</DialogTitle>
                 <DialogDescription>
                   {editingProject ? 'Update project details.' : 'Add a new project to your workspace.'}
                 </DialogDescription>
-              </DialogHeader>
+              </UIDialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
                   <Label htmlFor="name">Name</Label>
@@ -172,7 +228,7 @@ export default function Dashboard() {
           </Button>
         </div>
       ) : (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 mt-4">
           {projects.map((project) => {
             const ownerName = users.find(u => u.id === project.owner_id)?.name || 'Unknown User';
             const isOwner = user?.id === project.owner_id;
@@ -289,6 +345,7 @@ export default function Dashboard() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      </div>
     </div>
   );
 }

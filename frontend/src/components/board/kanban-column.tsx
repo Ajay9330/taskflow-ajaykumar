@@ -1,21 +1,11 @@
 import { Droppable, Draggable } from '@hello-pangea/dnd';
-import type { Task, TaskStatus } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import { TaskCard } from './task-card';
-
-interface KanbanColumnProps {
-  id: TaskStatus;
-  title: string;
-  tasks: Task[];
-  onView: (task: Task) => void;
-  onEdit: (task: Task) => void;
-  onDelete: (taskId: string) => void;
-  onQuickUpdate: (taskId: string, updates: Partial<Task>) => void;
-}
+import type { KanbanColumnProps } from '@/types/components';
 
 export function KanbanColumn({ id, title, tasks, onView, onEdit, onDelete, onQuickUpdate }: KanbanColumnProps) {
   return (
-    <div className="shrink-0 w-[340px] flex flex-col h-full bg-muted/30 border border-border/40 rounded-xl overflow-hidden">
+    <div className="flex-1 min-w-[300px] flex flex-col h-full bg-muted/30 border border-border/40 rounded-xl overflow-hidden">
       {/* Column Header */}
       <div className="flex items-center justify-between p-4 bg-muted/40 border-b border-border/40 shrink-0">
         <h3 className="font-bold text-sm text-foreground/80 tracking-wide uppercase">{title}</h3>

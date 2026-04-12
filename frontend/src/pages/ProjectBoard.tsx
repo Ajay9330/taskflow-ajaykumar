@@ -3,7 +3,8 @@ import { useParams } from 'react-router';
 import { DragDropContext } from '@hello-pangea/dnd';
 import type { DropResult } from '@hello-pangea/dnd';
 import { Plus } from 'lucide-react';
-import { useProjectDetails, useCreateTask, useUpdateTask, useDeleteTask } from '@/api/queries';
+import { useProjectDetails, useCreateTask, useUpdateTask, useDeleteTask } from '@/hooks/api/useQueries';
+import { Skeleton } from '@/components/ui/skeleton';
 import type { Task, TaskStatus } from '@/types';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -11,7 +12,7 @@ import { TaskEditDialog } from '../components/board/task-edit-dialog';
 import { TaskViewDialog } from '../components/board/task-view-dialog';
 import { KanbanColumn } from '../components/board/kanban-column';
 import { TASK_STATUSES } from '../constants';
-import { useProjectEvents } from '@/hooks/useProjectEvents';
+import { useProjectEvents } from '@/hooks/features/useProjectEvents';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -144,18 +145,27 @@ export default function ProjectBoard() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col h-[calc(100vh-3.5rem)] overflow-hidden p-6 gap-6">
-        <div className="flex justify-between items-start">
-          <div>
-            <div className="h-8 w-[250px] mb-2 bg-slate-200 animate-pulse rounded" />
-            <div className="h-4 w-[400px] bg-slate-200 animate-pulse rounded" />
+      <div className="flex flex-col h-[calc(100vh-3.5rem)] overflow-hidden p-6 gap-8">
+        <div className="flex justify-between items-center">
+          <div className="space-y-2">
+            <Skeleton className="h-7 w-[200px]" />
+            <Skeleton className="h-4 w-[300px]" />
           </div>
-          <div className="h-10 w-[120px] bg-slate-200 animate-pulse rounded" />
+          <Skeleton className="h-9 w-[100px]" />
         </div>
-        <div className="flex gap-6 h-full items-start">
-          <div className="w-80 h-full rounded-xl bg-slate-200 animate-pulse" />
-          <div className="w-80 h-full rounded-xl bg-slate-200 animate-pulse" />
-          <div className="w-80 h-full rounded-xl bg-slate-200 animate-pulse" />
+        <div className="flex gap-4 h-full items-start">
+          {TASK_STATUSES.map((column) => (
+            <div key={column.id} className="flex-1 min-w-[300px] flex flex-col h-full bg-muted/30 border border-border/40 rounded-xl overflow-hidden">
+              <div className="flex items-center justify-between p-4 bg-muted/40 border-b border-border/40 shrink-0">
+                <Skeleton className="h-4 w-16" />
+                <Skeleton className="h-5 w-8 rounded-full" />
+              </div>
+              <div className="flex-1 p-3 space-y-3">
+                <Skeleton className="h-[100px] w-full rounded-md" />
+                <Skeleton className="h-[100px] w-full rounded-md" />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );

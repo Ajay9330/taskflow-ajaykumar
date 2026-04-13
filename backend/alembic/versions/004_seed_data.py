@@ -33,7 +33,7 @@ def upgrade() -> None:
     # Insert users
     op.execute(
         f"INSERT INTO users (id, name, email, password, created_at, updated_at) "
-        f"VALUES ('{USER_ID_1}', 'Test User', 'test@example.com', '{HASH}', now(), now()) "
+        f"VALUES ('{USER_ID_1}', 'Test User', 'test1@example.com', '{HASH}', now(), now()) "
         f"ON CONFLICT (id) DO NOTHING"
     )
     op.execute(

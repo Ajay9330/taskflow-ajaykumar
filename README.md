@@ -41,7 +41,7 @@ To see the Server-Sent Events (SSE) in action, you can test how the application 
    - Open **Browser Window B** (e.g., an Incognito window, or Firefox).
 
 2. **Register/Login:**
-   - Since the database is fresh, create a new account in Window A (e.g., `user2@example.com` / `password123`).
+   - Since the database is fresh, create a new account in Window A (e.g., `test2@example.com` / `password123`).
    - Create another account in Window B (e.g., `test1@example.com` / `password123`), **OR** just log in with the same account in both windows.
 
 3. **Create a Project and Tasks:**

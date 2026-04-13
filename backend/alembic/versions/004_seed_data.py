@@ -72,64 +72,64 @@ def upgrade() -> None:
     # Insert tasks for Project Alpha
     op.execute(
         f"INSERT INTO tasks (id, title, description, status, priority, project_id, assignee_id, due_date, created_at, updated_at) "
-        f"VALUES ('{uuid.uuid4()}', 'Task 1', 'Description for task 1', 'todo', 'low', '{PROJECT_ID_1}', '{USER_ID_1}', now() + interval '1 day', now(), now()) "
+        f"VALUES ('{uuid.uuid4()}', 'Setup Project Repository', 'Initialize the GitHub repository and setup CI/CD pipelines', 'done', 'high', '{PROJECT_ID_1}', '{USER_ID_1}', now() - interval '5 days', now(), now()) "
         f"ON CONFLICT (id) DO NOTHING"
     )
     op.execute(
         f"INSERT INTO tasks (id, title, description, status, priority, project_id, assignee_id, due_date, created_at, updated_at) "
-        f"VALUES ('{uuid.uuid4()}', 'Task 2', 'Description for task 2', 'in_progress', 'medium', '{PROJECT_ID_1}', '{USER_ID_2}', now() + interval '2 days', now(), now()) "
+        f"VALUES ('{uuid.uuid4()}', 'Design Database Schema', 'Create ERDs and initial SQL scripts for PostgreSQL', 'done', 'high', '{PROJECT_ID_1}', '{USER_ID_2}', now() - interval '2 days', now(), now()) "
         f"ON CONFLICT (id) DO NOTHING"
     )
     op.execute(
         f"INSERT INTO tasks (id, title, description, status, priority, project_id, assignee_id, due_date, created_at, updated_at) "
-        f"VALUES ('{uuid.uuid4()}', 'Task 3', 'Description for task 3', 'done', 'high', '{PROJECT_ID_1}', '{USER_ID_3}', now() + interval '3 days', now(), now()) "
+        f"VALUES ('{uuid.uuid4()}', 'Implement User Auth', 'Add JWT based authentication using FastAPI', 'in_progress', 'high', '{PROJECT_ID_1}', '{USER_ID_3}', now() + interval '2 days', now(), now()) "
         f"ON CONFLICT (id) DO NOTHING"
     )
     op.execute(
         f"INSERT INTO tasks (id, title, description, status, priority, project_id, assignee_id, due_date, created_at, updated_at) "
-        f"VALUES ('{uuid.uuid4()}', 'Task 4', 'Description for task 4', 'todo', 'high', '{PROJECT_ID_1}', '{USER_ID_4}', now() + interval '1 days', now(), now()) "
+        f"VALUES ('{uuid.uuid4()}', 'Create Kanban UI Component', 'Use React-beautiful-dnd or @hello-pangea/dnd for board', 'in_progress', 'medium', '{PROJECT_ID_1}', '{USER_ID_4}', now() + interval '4 days', now(), now()) "
         f"ON CONFLICT (id) DO NOTHING"
     )
     op.execute(
         f"INSERT INTO tasks (id, title, description, status, priority, project_id, assignee_id, due_date, created_at, updated_at) "
-        f"VALUES ('{uuid.uuid4()}', 'Task 5', 'Description for task 5', 'in_progress', 'low', '{PROJECT_ID_1}', '{USER_ID_5}', now() + interval '4 days', now(), now()) "
+        f"VALUES ('{uuid.uuid4()}', 'Setup Server Sent Events', 'Implement live streaming of task updates from backend to frontend', 'todo', 'high', '{PROJECT_ID_1}', '{USER_ID_5}', now() + interval '7 days', now(), now()) "
         f"ON CONFLICT (id) DO NOTHING"
     )
     op.execute(
         f"INSERT INTO tasks (id, title, description, status, priority, project_id, assignee_id, due_date, created_at, updated_at) "
-        f"VALUES ('{uuid.uuid4()}', 'Task 6', 'Description for task 6', 'done', 'medium', '{PROJECT_ID_1}', '{USER_ID_1}', now() + interval '2 days', now(), now()) "
+        f"VALUES ('{uuid.uuid4()}', 'Write API Documentation', 'Add docstrings and configure Swagger UI', 'todo', 'low', '{PROJECT_ID_1}', '{USER_ID_1}', now() + interval '10 days', now(), now()) "
         f"ON CONFLICT (id) DO NOTHING"
     )
 
     # Insert tasks for Project Beta
     op.execute(
         f"INSERT INTO tasks (id, title, description, status, priority, project_id, assignee_id, due_date, created_at, updated_at) "
-        f"VALUES ('{uuid.uuid4()}', 'Task 7', 'Description for task 7', 'todo', 'medium', '{PROJECT_ID_2}', '{USER_ID_2}', now() + interval '3 days', now(), now()) "
+        f"VALUES ('{uuid.uuid4()}', 'Market Research', 'Analyze competitor pricing and feature sets', 'done', 'medium', '{PROJECT_ID_2}', '{USER_ID_2}', now() - interval '10 days', now(), now()) "
         f"ON CONFLICT (id) DO NOTHING"
     )
     op.execute(
         f"INSERT INTO tasks (id, title, description, status, priority, project_id, assignee_id, due_date, created_at, updated_at) "
-        f"VALUES ('{uuid.uuid4()}', 'Task 8', 'Description for task 8', 'in_progress', 'high', '{PROJECT_ID_2}', '{USER_ID_3}', now() + interval '1 day', now(), now()) "
+        f"VALUES ('{uuid.uuid4()}', 'Draft Initial Pitch Deck', 'Create presentation slides for angel investors', 'in_progress', 'high', '{PROJECT_ID_2}', '{USER_ID_3}', now() + interval '1 day', now(), now()) "
         f"ON CONFLICT (id) DO NOTHING"
     )
     op.execute(
         f"INSERT INTO tasks (id, title, description, status, priority, project_id, assignee_id, due_date, created_at, updated_at) "
-        f"VALUES ('{uuid.uuid4()}', 'Task 9', 'Description for task 9', 'done', 'low', '{PROJECT_ID_2}', '{USER_ID_4}', now() + interval '5 days', now(), now()) "
+        f"VALUES ('{uuid.uuid4()}', 'Hire Lead Designer', 'Interview candidates for UI/UX lead position', 'in_progress', 'high', '{PROJECT_ID_2}', '{USER_ID_4}', now() + interval '5 days', now(), now()) "
         f"ON CONFLICT (id) DO NOTHING"
     )
     op.execute(
         f"INSERT INTO tasks (id, title, description, status, priority, project_id, assignee_id, due_date, created_at, updated_at) "
-        f"VALUES ('{uuid.uuid4()}', 'Task 10', 'Description for task 10', 'todo', 'low', '{PROJECT_ID_2}', '{USER_ID_5}', now() + interval '2 days', now(), now()) "
+        f"VALUES ('{uuid.uuid4()}', 'Review Legal Contracts', 'Send incorporation documents to external counsel', 'todo', 'medium', '{PROJECT_ID_2}', '{USER_ID_5}', now() + interval '14 days', now(), now()) "
         f"ON CONFLICT (id) DO NOTHING"
     )
     op.execute(
         f"INSERT INTO tasks (id, title, description, status, priority, project_id, assignee_id, due_date, created_at, updated_at) "
-        f"VALUES ('{uuid.uuid4()}', 'Task 11', 'Description for task 11', 'in_progress', 'medium', '{PROJECT_ID_2}', '{USER_ID_1}', now() + interval '1 day', now(), now()) "
+        f"VALUES ('{uuid.uuid4()}', 'Order Office Equipment', 'Purchase standing desks and dual monitors', 'todo', 'low', '{PROJECT_ID_2}', '{USER_ID_1}', now() + interval '20 days', now(), now()) "
         f"ON CONFLICT (id) DO NOTHING"
     )
     op.execute(
         f"INSERT INTO tasks (id, title, description, status, priority, project_id, assignee_id, due_date, created_at, updated_at) "
-        f"VALUES ('{uuid.uuid4()}', 'Task 12', 'Description for task 12', 'done', 'high', '{PROJECT_ID_2}', '{USER_ID_2}', now() + interval '4 days', now(), now()) "
+        f"VALUES ('{uuid.uuid4()}', 'Finalize Brand Guidelines', 'Approve logo variants and color palettes', 'todo', 'high', '{PROJECT_ID_2}', '{USER_ID_2}', now() + interval '30 days', now(), now()) "
         f"ON CONFLICT (id) DO NOTHING"
     )
 

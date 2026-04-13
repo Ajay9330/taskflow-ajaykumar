@@ -22,13 +22,17 @@ export function getShortId(id: string): string {
   return id.split('-')[0].toUpperCase()
 }
 
+function ensureLocalTimezone(dateString: string): Date {
+  return new Date(dateString+'Z');
+}
+
 /**
  * Formats a given UTC ISO string to a compact date representation.
  * (e.g. "Apr 12")
  */
 export function formatCompactDate(dateString?: string): string {
   if (!dateString) return ''
-  return format(new Date(dateString), 'MMM d')
+  return format(ensureLocalTimezone(dateString), 'MMM d')
 }
 
 /**
@@ -37,7 +41,7 @@ export function formatCompactDate(dateString?: string): string {
  */
 export function formatFullDate(dateString?: string): string {
   if (!dateString) return ''
-  return format(new Date(dateString), 'MMM d, yyyy')
+  return format(ensureLocalTimezone(dateString), 'MMM d, yyyy')
 }
 
 /**
@@ -46,5 +50,5 @@ export function formatFullDate(dateString?: string): string {
  */
 export function formatDateTime(dateString?: string): string {
   if (!dateString) return ''
-  return format(new Date(dateString), 'MMM d, yyyy • h:mm a')
+  return format(ensureLocalTimezone(dateString), 'MMM d, yyyy • h:mm a')
 }
